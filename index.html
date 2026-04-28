@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harrison & Cole | Corporate Law</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green-deep:    #1a2e1a;
+    --green-dark:    #243824;
+    --green-mid:     #3a5c3a;
+    --green-muted:   #6b8f6b;
+    --green-light:   #c9d9c9;
+    --cream:         #f5f0e8;
+    --cream-light:   #faf7f2;
+    --cream-dark:    #e8e0d0;
+    --bronze:        #8b6914;
+    --bronze-light:  #c49a2a;
+    --bronze-pale:   #e8d89a;
+    --text-dark:     #1a1a14;
+    --text-mid:      #3a3a2e;
+    --text-muted:    #7a7a6a;
+    --white:         #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--cream-light);
+    color: var(--text-dark);
+    font-weight: 300;
+    line-height: 1.7;
+    cursor: default;
+  }
+
+  /* ===== CUSTOM CURSOR ===== */
+  *, a, button { cursor: none !important; }
+
+  #cursor {
+    width: 10px; height: 10px;
+    background: var(--bronze);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease, background 0.2s ease;
+    transform: translate(-50%, -50%);
+  }
+
+  #cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--bronze);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.4s ease, opacity 0.3s ease;
+    transform: translate(-50%, -50%);
+    opacity: 0.5;
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 80px;
+    background: transparent;
+    transition: background 0.4s ease, border-bottom 0.4s ease;
+  }
+
+  nav.scrolled {
+    background: var(--green-deep);
+    border-bottom: 1px solid rgba(196,154,42,0.2);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--bronze-light); }
+
+  .nav-links {
+    display: flex; gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cream-dark);
+    text-decoration: none;
+    position: relative;
+    transition: color 0.3s;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--bronze-light);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: var(--bronze-light); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-deep) !important;
+    background: var(--bronze-light);
+    padding: 0.6rem 1.5rem;
+    text-decoration: none;
+    transition: background 0.3s ease, color 0.3s ease !important;
+  }
+
+  .nav-cta:hover { background: var(--bronze) !important; color: var(--cream) !important; }
+  .nav-cta::after { display: none !important; }
+
+  /* ===== HERO ===== */
+  #hero {
+    min-height: 100vh;
+    background: var(--green-deep);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-texture {
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 79px, rgba(196,154,42,0.04) 80px),
+      repeating-linear-gradient(90deg, transparent, transparent 79px, rgba(196,154,42,0.04) 80px);
+    pointer-events: none;
+  }
+
+  .hero-left {
+    padding: 160px 8% 100px 10%;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 2;
+  }
+
+  .hero-badge {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--bronze-light);
+    margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .hero-badge::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--bronze-light);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--bronze-light);
+  }
+
+  .hero-desc {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--green-light);
+    max-width: 420px;
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .hero-buttons {
+    display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--bronze-light);
+    color: var(--green-deep);
+    padding: 1rem 2.2rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--bronze); transform: translateY(-2px); }
+
+  .btn-secondary {
+    color: var(--cream);
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.7rem;
+    font-weight: 400;
+    transition: gap 0.3s;
+  }
+
+  .btn-secondary:hover { gap: 1rem; }
+
+  .btn-secondary::after {
+    content: '→';
+    color: var(--bronze-light);
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: saturate(0.6) brightness(0.7);
+    display: block;
+  }
+
+  .hero-right-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to right, var(--green-deep) 0%, transparent 40%);
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 60px; right: 8%;
+    display: flex; gap: 2px;
+  }
+
+  .hero-stat {
+    background: rgba(26,46,26,0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(196,154,42,0.2);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    min-width: 110px;
+  }
+
+  .hero-stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--bronze-light);
+    line-height: 1;
+    display: block;
+  }
+
+  .hero-stat-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    display: block;
+    margin-top: 0.4rem;
+  }
+
+  /* ===== MARQUEE ===== */
+  .marquee-bar {
+    background: var(--bronze);
+    padding: 0.85rem 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-flex;
+    animation: marquee 24s linear infinite;
+  }
+
+  .marquee-item {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--green-deep);
+    padding: 0 3rem;
+    font-weight: 500;
+  }
+
+  .marquee-item::before {
+    content: '◆';
+    margin-right: 3rem;
+    opacity: 0.5;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ===== SECTION UTILITY ===== */
+  section { padding: 8rem 10%; }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .section-label::before {
+    content: '';
+    display: block; width: 30px; height: 1px;
+    background: var(--bronze);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--green-mid); }
+
+  /* ===== ABOUT ===== */
+  #about {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6%;
+    align-items: center;
+    padding: 8rem 10%;
+  }
+
+  .about-image-wrap {
+    position: relative;
+  }
+
+  .about-image-wrap img {
+    width: 100%;
+    display: block;
+    filter: saturate(0.8);
+  }
+
+  .about-accent {
+    position: absolute;
+    bottom: -24px; right: -24px;
+    width: 60%; height: 60%;
+    border: 2px solid var(--bronze-pale);
+    z-index: -1;
+  }
+
+  .about-quote-block {
+    margin-top: 2.5rem;
+    border-left: 2px solid var(--bronze-light);
+    padding-left: 1.5rem;
+  }
+
+  .about-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+
+  .about-text {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-top: 1.5rem;
+  }
+
+  .about-credentials {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin-top: 2.5rem;
+    background: var(--cream-dark);
+    border: 1px solid var(--cream-dark);
+  }
+
+  .credential {
+    background: var(--cream-light);
+    padding: 1.2rem 1.4rem;
+  }
+
+  .credential-title {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze);
+    margin-bottom: 0.3rem;
+  }
+
+  .credential-val {
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    font-weight: 400;
+  }
+
+  /* ===== PRACTICE AREAS ===== */
+  #practice {
+    background: var(--green-deep);
+    padding: 8rem 10%;
+  }
+
+  #practice .section-label { color: var(--bronze-light); }
+  #practice .section-label::before { background: var(--bronze-light); }
+  #practice .section-title { color: var(--cream); }
+
+  .practice-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    margin-top: 4rem;
+    background: rgba(196,154,42,0.15);
+    border: 1px solid rgba(196,154,42,0.15);
+  }
+
+  .practice-card {
+    background: var(--green-dark);
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+  }
+
+  .practice-card:hover { background: var(--green-mid); }
+
+  .practice-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--bronze-light);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+
+  .practice-card:hover::before { transform: scaleX(1); }
+
+  .practice-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: rgba(196,154,42,0.15);
+    line-height: 1;
+    margin-bottom: 1rem;
+    transition: color 0.3s;
+  }
+
+  .practice-card:hover .practice-num { color: rgba(196,154,42,0.3); }
+
+  .practice-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+
+  .practice-desc {
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--green-light);
+    font-weight: 300;
+  }
+
+  .practice-arrow {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze-light);
+    text-decoration: none;
+    transition: letter-spacing 0.3s;
+  }
+
+  .practice-arrow:hover { letter-spacing: 0.3em; }
+
+  /* ===== PROCESS ===== */
+  #process {
+    background: var(--cream-light);
+    padding: 8rem 10%;
+  }
+
+  .process-steps {
+    margin-top: 4rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 12%; right: 12%;
+    height: 1px;
+    background: var(--cream-dark);
+  }
+
+  .process-step {
+    padding: 0 1.5rem;
+    text-align: center;
+  }
+
+  .step-circle {
+    width: 56px; height: 56px;
+    border: 1px solid var(--bronze);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--bronze);
+    background: var(--cream-light);
+    position: relative; z-index: 1;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  .process-step:hover .step-circle {
+    background: var(--bronze);
+    color: var(--cream);
+  }
+
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 0.6rem;
+  }
+
+  .step-desc {
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+  }
+
+  /* ===== TESTIMONIALS ===== */
+  #testimonials {
+    background: var(--cream);
+    padding: 8rem 10%;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .testimonial-card {
+    background: var(--cream-light);
+    border: 1px solid var(--cream-dark);
+    padding: 2.5rem;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+
+  .testimonial-card:hover {
+    border-color: var(--bronze-pale);
+    transform: translateY(-4px);
+  }
+
+  .testimonial-quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    line-height: 0.5;
+    color: var(--bronze-pale);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--text-mid);
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+
+  .testimonial-author {
+    display: flex; align-items: center; gap: 1rem;
+  }
+
+  .testimonial-avatar {
+    width: 42px; height: 42px;
+    background: var(--green-mid);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    color: var(--cream);
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .testimonial-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-dark);
+  }
+
+  .testimonial-company {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.1rem;
+  }
+
+  /* ===== CONTACT ===== */
+  #contact {
+    background: var(--green-deep);
+    padding: 8rem 10%;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 8%;
+    align-items: start;
+  }
+
+  #contact .section-label { color: var(--bronze-light); }
+  #contact .section-label::before { background: var(--bronze-light); }
+  #contact .section-title { color: var(--cream); }
+
+  #contact p {
+    color: var(--green-light);
+    font-size: 0.92rem;
+    line-height: 1.85;
+    margin-top: 1rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .contact-details { display: flex; flex-direction: column; gap: 1rem; }
+
+  .contact-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+
+  .contact-icon {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(196,154,42,0.3);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--bronze-light);
+  }
+
+  .contact-info-title {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bronze-light);
+    margin-bottom: 0.25rem;
+  }
+
+  .contact-info-val {
+    font-size: 0.9rem;
+    color: var(--cream);
+    font-weight: 300;
+  }
+
+  /* ===== FORM ===== */
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+  .form-group { display: flex; flex-direction: column; }
+
+  .form-group label {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    margin-bottom: 0.5rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(196,154,42,0.2);
+    color: var(--cream);
+    padding: 0.85rem 1rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--bronze-light);
+  }
+
+  .form-group select option { background: var(--green-dark); }
+
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  .form-submit {
+    background: var(--bronze-light);
+    color: var(--green-deep);
+    border: none;
+    padding: 1.1rem 2.5rem;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    align-self: flex-start;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .form-submit:hover {
+    background: var(--bronze);
+    color: var(--cream);
+    transform: translateY(-2px);
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    background: var(--green-deep);
+    border-top: 1px solid rgba(196,154,42,0.15);
+    padding: 3rem 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--cream);
+  }
+
+  .footer-logo span { color: var(--bronze-light); }
+
+  .footer-copy {
+    font-size: 0.72rem;
+    color: var(--green-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--green-light);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .footer-links a:hover { color: var(--bronze-light); }
+
+  /* ===== ANIMATIONS ===== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { height: 50vh; }
+    .hero-right-overlay { background: linear-gradient(to top, var(--green-deep) 0%, transparent 50%); }
+    #about { grid-template-columns: 1fr; }
+    .practice-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .process-steps::before { display: none; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    #contact { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    nav .nav-links { display: none; }
+    footer { flex-direction: column; text-align: center; }
+    .btn-primary {
+        font-size: 10px;
+        width: 100%;
+        padding: 20px 20px;
+        text-align: center;
+    }
+
+    .footer-links {
+        display: flex;flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ===== NAVIGATION ===== -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">Harrison <span>&</span> Cole</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#practice">Practice Areas</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Results</a></li>
+    <li><a href="#contact" class="nav-cta">Schedule Consultation</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-left">
+    <div class="hero-badge">Corporate & Business Law — New York</div>
+    <h1 class="hero-title">
+      Counsel That <em>Protects</em><br>What You've Built
+    </h1>
+    <p class="hero-desc">
+      Harrison & Cole brings 28 years of strategic corporate law experience to every client engagement. We protect enterprises — from emerging ventures to Fortune 500 companies.
+    </p>
+    <div class="hero-buttons">
+      <a href="#contact" class="btn-primary">Schedule a Consultation</a>
+      <a href="#practice" class="btn-secondary">Our Practice Areas</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=900&q=80" alt="Law office">
+    <div class="hero-right-overlay"></div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-num">28+</span>
+        <span class="hero-stat-label">Years</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">$4B+</span>
+        <span class="hero-stat-label">Transactions</span>
+      </div>
+      <div class="hero-stat">
+        <span class="hero-stat-num">97%</span>
+        <span class="hero-stat-label">Client Return</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MARQUEE ===== -->
+<div class="marquee-bar" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Mergers & Acquisitions</span>
+    <span class="marquee-item">Corporate Governance</span>
+    <span class="marquee-item">Contract Negotiation</span>
+    <span class="marquee-item">Securities Law</span>
+    <span class="marquee-item">Venture Capital</span>
+    <span class="marquee-item">Regulatory Compliance</span>
+    <span class="marquee-item">Business Restructuring</span>
+    <span class="marquee-item">Intellectual Property</span>
+    <span class="marquee-item">Mergers & Acquisitions</span>
+    <span class="marquee-item">Corporate Governance</span>
+    <span class="marquee-item">Contract Negotiation</span>
+    <span class="marquee-item">Securities Law</span>
+    <span class="marquee-item">Venture Capital</span>
+    <span class="marquee-item">Regulatory Compliance</span>
+    <span class="marquee-item">Business Restructuring</span>
+    <span class="marquee-item">Intellectual Property</span>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="about-image-wrap reveal">
+    <img src="https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=700&q=80" alt="James Harrison, Attorney">
+    <div class="about-accent"></div>
+  </div>
+  <div class="reveal">
+    <div class="section-label">About the Firm</div>
+    <h2 class="section-title">A Firm Built on <em>Integrity</em> & Results</h2>
+    <div class="about-quote-block">
+      <p class="about-quote">"Every business deserves legal counsel that thinks like a partner, not a vendor."</p>
+    </div>
+    <p class="about-text">
+      Founded by James W. Harrison in 1996, Harrison & Cole has become one of New York's most respected boutique corporate law firms. We serve entrepreneurs, executives, and board members navigating complex business decisions — mergers, capital raises, regulatory challenges, and everything in between.
+      <br><br>
+      Our attorneys combine Ivy League pedigrees with hard-won boardroom experience. We don't just advise. We advocate.
+    </p>
+    <div class="about-credentials">
+      <div class="credential">
+        <div class="credential-title">Education</div>
+        <div class="credential-val">Harvard Law School, J.D.</div>
+      </div>
+      <div class="credential">
+        <div class="credential-title">Admitted</div>
+        <div class="credential-val">New York, D.C. Bars</div>
+      </div>
+      <div class="credential">
+        <div class="credential-title">Recognition</div>
+        <div class="credential-val">Super Lawyers® 2019–2024</div>
+      </div>
+      <div class="credential">
+        <div class="credential-title">Chambers USA</div>
+        <div class="credential-val">Band 1 — Corporate M&A</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRACTICE AREAS ===== -->
+<section id="practice">
+  <div class="reveal">
+    <div class="section-label">What We Do</div>
+    <h2 class="section-title" style="color:var(--cream);">Our Practice <em style="color:var(--bronze-light);">Areas</em></h2>
+  </div>
+  <div class="practice-grid reveal">
+    <div class="practice-card">
+      <div class="practice-num">01</div>
+      <h3 class="practice-name">Mergers & Acquisitions</h3>
+      <p class="practice-desc">From due diligence to closing, we guide you through every stage of corporate transactions — protecting your interests at every turn.</p>
+      <a href="#contact" class="practice-arrow">Learn More →</a>
+    </div>
+    <div class="practice-card">
+      <div class="practice-num">02</div>
+      <h3 class="practice-name">Corporate Governance</h3>
+      <p class="practice-desc">We advise boards and executives on fiduciary duties, shareholder rights, compliance frameworks, and risk management best practices.</p>
+      <a href="#contact" class="practice-arrow">Learn More →</a>
+    </div>
+    <div class="practice-card">
+      <div class="practice-num">03</div>
+      <h3 class="practice-name">Venture Capital & Private Equity</h3>
+      <p class="practice-desc">Representing founders, investors, and funds in seed rounds, Series financings, and fund formations with precision and speed.</p>
+      <a href="#contact" class="practice-arrow">Learn More →</a>
+    </div>
+    <div class="practice-card">
+      <div class="practice-num">04</div>
+      <h3 class="practice-name">Contract Negotiation</h3>
+      <p class="practice-desc">Drafting and negotiating commercial agreements, joint ventures, licensing deals, and strategic partnerships that hold up under pressure.</p>
+      <a href="#contact" class="practice-arrow">Learn More →</a>
+    </div>
+    <div class="practice-card">
+      <div class="practice-num">05</div>
+      <h3 class="practice-name">Securities & Compliance</h3>
+      <p class="practice-desc">Navigating SEC regulations, public offerings, and ongoing compliance obligations — so you can focus on building your business.</p>
+      <a href="#contact" class="practice-arrow">Learn More →</a>
+    </div>
+    <div class="practice-card">
+      <div class="practice-num">06</div>
+      <h3 class="practice-name">Business Restructuring</h3>
+      <p class="practice-desc">Strategic counsel for companies facing financial distress, restructuring, or bankruptcy proceedings — with a focus on value preservation.</p>
+      <a href="#contact" class="practice-arrow">Learn More →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROCESS ===== -->
+<section id="process">
+  <div class="reveal" style="text-align:center; max-width:600px; margin:0 auto;">
+    <div class="section-label" style="justify-content:center;">How We Work</div>
+    <h2 class="section-title">A Process Built for <em>Clarity</em></h2>
+  </div>
+  <div class="process-steps reveal">
+    <div class="process-step">
+      <div class="step-circle">I</div>
+      <h4 class="step-title">Initial Consultation</h4>
+      <p class="step-desc">A confidential 60-minute session to understand your legal needs, goals, and timeline.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">II</div>
+      <h4 class="step-title">Strategy Development</h4>
+      <p class="step-desc">We craft a customized legal strategy aligned with your business objectives and risk tolerance.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">III</div>
+      <h4 class="step-title">Active Representation</h4>
+      <p class="step-desc">Our attorneys execute with precision — drafting, negotiating, and advocating on your behalf.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-circle">IV</div>
+      <h4 class="step-title">Ongoing Counsel</h4>
+      <p class="step-desc">We remain your trusted advisors long after the matter closes, available when you need us.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TESTIMONIALS ===== -->
+<section id="testimonials">
+  <div class="reveal">
+    <div class="section-label">Client Testimonials</div>
+    <h2 class="section-title">What Our Clients <em>Say</em></h2>
+  </div>
+  <div class="testimonials-grid reveal">
+    <div class="testimonial-card">
+      <span class="testimonial-quote-mark">"</span>
+      <p class="testimonial-text">Harrison & Cole guided our Series B round and subsequent acquisition with exceptional precision. James and his team were responsive, brilliant, and absolutely essential to our outcome.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">RK</div>
+        <div>
+          <div class="testimonial-name">Robert Kim</div>
+          <div class="testimonial-company">CEO, Apex Technologies Inc.</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <span class="testimonial-quote-mark">"</span>
+      <p class="testimonial-text">When our board faced a hostile takeover attempt, we turned to Harrison & Cole. Their strategic counsel and deep M&A expertise were decisive. We couldn't have navigated it without them.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">SM</div>
+        <div>
+          <div class="testimonial-name">Sandra Mitchell</div>
+          <div class="testimonial-company">Board Chair, Meridian Capital Group</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <span class="testimonial-quote-mark">"</span>
+      <p class="testimonial-text">From our first meeting, it was clear this firm thinks differently. They understood our industry, anticipated every risk, and negotiated a licensing deal that exceeded all expectations.</p>
+      <div class="testimonial-author">
+        <div class="testimonial-avatar">DL</div>
+        <div>
+          <div class="testimonial-name">David Lau</div>
+          <div class="testimonial-company">Founder, Luminary Ventures</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">Get In Touch</div>
+    <h2 class="section-title">Schedule Your <em style="color:var(--bronze-light);">Consultation</em></h2>
+    <p>Every major business decision deserves experienced legal guidance. Contact us for a confidential consultation with a senior attorney.</p>
+    <div class="contact-details">
+      <div class="contact-item">
+        <div class="contact-icon">✦</div>
+        <div>
+          <div class="contact-info-title">Address</div>
+          <div class="contact-info-val">425 Lexington Avenue, Suite 2800<br>New York, NY 10017</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✦</div>
+        <div>
+          <div class="contact-info-title">Phone</div>
+          <div class="contact-info-val">+1 (212) 555-0190</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✦</div>
+        <div>
+          <div class="contact-info-title">Email</div>
+          <div class="contact-info-val">counsel@harrisoncole.law</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✦</div>
+        <div>
+          <div class="contact-info-title">Hours</div>
+          <div class="contact-info-val">Monday – Friday, 8:00 AM – 7:00 PM EST</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="reveal">
+    <form class="contact-form" onsubmit="return false;">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="James">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Anderson">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Company</label>
+        <input type="text" placeholder="Acme Corporation">
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="james@acmecorp.com">
+      </div>
+      <div class="form-group">
+        <label>Practice Area</label>
+        <select>
+          <option value="">Select a Practice Area</option>
+          <option>Mergers & Acquisitions</option>
+          <option>Corporate Governance</option>
+          <option>Venture Capital & Private Equity</option>
+          <option>Contract Negotiation</option>
+          <option>Securities & Compliance</option>
+          <option>Business Restructuring</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Brief Description</label>
+        <textarea placeholder="Briefly describe your legal matter..."></textarea>
+      </div>
+      <button class="form-submit">Request Consultation →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-logo">Harrison <span>&</span> Cole</div>
+  <ul class="footer-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#practice">Practice</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Disclaimer</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Harrison & Cole LLP. All rights reserved. Attorney advertising.</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+      cursor.style.background = '#c49a2a';
+      ring.style.opacity = '0.2';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.opacity = '0.5';
+    });
+  });
+
+  // Nav scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 100);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Stagger children
+  document.querySelectorAll('.practice-grid, .process-steps, .testimonials-grid').forEach(container => {
+    container.querySelectorAll(':scope > *').forEach((child, i) => {
+      child.style.transitionDelay = (i * 0.08) + 's';
+    });
+  });
+</script>
+</body>
+</html>
